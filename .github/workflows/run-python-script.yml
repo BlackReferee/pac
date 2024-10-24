@@ -30,7 +30,7 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "github-actions"
           git add output.txt
-          git commit -m "Add script output"
+          git commit --allow-empty -m "Add script output"  # 使用 --allow-empty 允许提交空提交
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
