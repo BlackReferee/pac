@@ -1,7 +1,9 @@
 name: Run Python Script
 
-# 触发条件：push 或 pull request
 on:
+  schedule:
+    # 每3小时执行一次
+    - cron: '0 */3 * * *' 
   push:
     branches:
       - main
@@ -14,29 +16,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 检出仓库代码
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 设置 Python 环境
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11' # 指定你需要的Python版本
 
-      # 安装依赖（如果有 requirements.txt）
       - name: Install dependencies
         run: |
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
 
-      # 运行 Python 脚本并将输出重定向到 output.txt
       - name: Run Python script
         run: |
           python ss.py > output.txt
 
-      # 将 output.txt 添加到版本控制并推送到仓库
       - name: Commit and push output.txt
         run: |
           git config --local user.email "you@example.com"
