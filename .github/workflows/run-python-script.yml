@@ -27,8 +27,8 @@ jobs:
       
       - name: Commit and push output.txt
         run: |
-          git config --local user.email "4234812@qq.com"
-          git config --local user.name "BlackReferee"
+          git config --local user.email "you@example.com"
+          git config --local user.name "Your Name"
           git add output.txt
           git commit -m "Add script output"
           git push
