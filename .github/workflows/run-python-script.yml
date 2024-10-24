@@ -1,37 +1,46 @@
 name: Run Python Script
 
+# 触发条件：push 或 pull request
 on:
   push:
     branches:
-      - main  # 当有推送到 main 分支时触发
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  run-script:
-    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 环境
+  run-python:
+    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2  # 检出代码
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      # 检出仓库代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 设置 Python 环境
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'  # 使用 Python 3.x 版本
-      
+          python-version: '3.11' # 指定你需要的Python版本
+
+      # 安装依赖（如果有 requirements.txt）
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          # 如果有需要安装的依赖库可以在这里添加
-          pip install -r requirements.txt
-      
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      # 运行 Python 脚本并将输出重定向到 output.txt
       - name: Run Python script
         run: |
-          python ss.py  # 运行脚本
-      
+          python ss.py > output.txt
+
+      # 将 output.txt 添加到版本控制并推送到仓库
       - name: Commit and push output.txt
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "github-actions"
+          git config --local user.email "you@example.com"
+          git config --local user.name "Your Name"
           git add output.txt
-          git commit --allow-empty -m "Add script output"  # 使用 --allow-empty 允许提交空提交
+          git commit -m "Add output.txt"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
