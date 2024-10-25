@@ -33,7 +33,11 @@ jobs:
       - name: Run Python script
         run: |
           python ss.py > output.txt
-
+          
+      - name: Update README with last run time
+        run: |
+          echo -e "\n\n## Last output.txt update: $(date)" >> README.md
+          
       - name: Commit and push output.txt
         run: |
           git config --local user.email "you@example.com"
