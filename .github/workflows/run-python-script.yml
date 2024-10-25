@@ -36,7 +36,7 @@ jobs:
           
       - name: Update README with last run time
         run: |
-          echo -e "\n\n## Last output.txt update: $(date)" >> README.md
+          sed -i "/<!-- LAST_UPDATE -->/c\Last update: $(date)" README.md
           
       - name: Commit and push output.txt
         run: |
