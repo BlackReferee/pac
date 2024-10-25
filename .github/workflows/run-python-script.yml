@@ -34,9 +34,6 @@ jobs:
         run: |
           python ss.py > output.txt
           
-      - name: Update README with last run time
-        run: |
-          sed -i "/<!-- LAST_UPDATE -->/c\Last update: $(date)" README.md
           
       - name: Commit and push output.txt
         run: |
